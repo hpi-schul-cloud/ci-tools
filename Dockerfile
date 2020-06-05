@@ -1,7 +1,14 @@
 ARG ALPINE_IMAGE_TAG="3.11.6"
 
-# --- base ---------------------------------------------------------------------
-FROM alpine:${ALPINE_IMAGE_TAG}
+# --- stage:release ------------------------------------------------------------
+FROM alpine:${ALPINE_IMAGE_TAG} as release
+
+ARG BUILD_BRANCH
+ARG BUILD_HASH
+
+LABEL build.stage="release"
+LABEL build.branch="${BUILD_BRANCH}"
+LABEL build.hash="${BUILD_HASH}"
 
 RUN set -x \
     && apk update \
@@ -10,6 +17,7 @@ RUN set -x \
         curl \
         git \
         make \
+        openssh \
         openssl \
         python3 \
         unzip
