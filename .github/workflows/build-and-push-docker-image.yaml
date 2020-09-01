@@ -3,8 +3,16 @@ name: Build and push Docker image
 
 on:
   push:
+    branches:
+      - master
+      - develop
+      - feature/*
+      - release/*
+      - hotfix/*
     tags:
       - '[0-9]*'
+
+  pull_request:
 
 jobs:
   build_and_push:
@@ -21,3 +29,6 @@ jobs:
 
       - name: Push image
         run: make push
+
+      - name: Cleanup
+        run: make clean
